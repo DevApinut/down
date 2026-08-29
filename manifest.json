@@ -1,0 +1,43 @@
+{
+  "manifest_version": 3,
+  "name": "Facebook Multi Video Downloader",
+  "version": "0.6.67",
+  "description": "ดาวน์โหลดวิดีโอ Facebook หลายรายการ โดยอ่าน HD/SD พร้อมเสียงจากข้อมูลที่หน้าโหลดไว้",
+  "permissions": [
+    "downloads",
+    "offscreen",
+    "scripting",
+    "storage",
+    "webRequest"
+  ],
+  "host_permissions": [
+    "https://www.facebook.com/*",
+    "https://web.facebook.com/*",
+    "https://*.fbcdn.net/*"
+  ],
+  "background": {
+    "service_worker": "service-worker.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.facebook.com/*",
+        "https://web.facebook.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "styles.css"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
+  },
+  "action": {
+    "default_title": "Facebook Multi Video Downloader"
+  }
+}

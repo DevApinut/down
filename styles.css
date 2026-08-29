@@ -1,0 +1,224 @@
+
+#fbmd-overlay-root {
+  position: fixed !important;
+  z-index: 2147483000 !important;
+  inset: 0 !important;
+  pointer-events: none !important;
+}
+
+.fbmd-video-card {
+  position: fixed !important;
+  z-index: 2147483000 !important;
+  top: 0 !important;
+  left: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0 !important;
+  padding: 4px !important;
+  border: 1px solid rgba(255,255,255,.28) !important;
+  border-radius: 10px !important;
+  background: rgba(17,24,39,.88) !important;
+  box-shadow: 0 6px 20px rgba(0,0,0,.28) !important;
+  color: #fff !important;
+  font: 12px/1.25 system-ui, sans-serif !important;
+  backdrop-filter: blur(8px) !important;
+  pointer-events: auto !important;
+  opacity: 1 !important;
+  transition: opacity .16s ease, transform .08s linear !important;
+}
+.fbmd-video-card.is-hidden { display:none !important; }
+.fbmd-video-card.is-scroll-hidden { display:none !important; }
+.fbmd-video-card.is-dormant {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+.fbmd-video-card * { box-sizing: border-box !important; font: inherit !important; }
+.fbmd-card-controls {
+  display: none !important;
+  align-items: center !important;
+  gap: 6px !important;
+  margin-left: 5px !important;
+}
+.fbmd-video-card:hover .fbmd-card-controls,
+.fbmd-video-card:focus-within .fbmd-card-controls,
+.fbmd-video-card.is-open .fbmd-card-controls {
+  display: flex !important;
+}
+.fbmd-video-card .fbmd-launcher {
+  display: grid !important;
+  place-items: center !important;
+  flex: 0 0 26px !important;
+  width: 26px !important;
+  min-width: 26px !important;
+  height: 26px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: #1877f2 !important;
+  color: #fff !important;
+  font: 700 19px/1 system-ui, sans-serif !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,.32) !important;
+}
+.fbmd-video-card .fbmd-launcher:hover { background: #0f66db !important; }
+.fbmd-check-wrap { display:flex !important; align-items:center !important; gap:4px !important; white-space:nowrap !important; cursor:pointer !important; }
+.fbmd-check { accent-color:#22c55e !important; width:16px !important; height:16px !important; }
+.fbmd-quality, .fbmd-video-card button, #fbmd-toolbar select, #fbmd-toolbar button {
+  border: 1px solid rgba(255,255,255,.22) !important;
+  border-radius: 7px !important;
+  padding: 6px 8px !important;
+  color: #fff !important;
+  background: #253047 !important;
+}
+.fbmd-video-card button, #fbmd-toolbar button { cursor:pointer !important; font-weight:700 !important; }
+.fbmd-video-card button:hover, #fbmd-toolbar button:hover { background:#2563eb !important; }
+.fbmd-video-card button:disabled, #fbmd-toolbar button:disabled { opacity:.45 !important; cursor:not-allowed !important; }
+
+#fbmd-toolbar {
+  position: fixed !important;
+  z-index: 2147483646 !important;
+  right: 18px !important;
+  bottom: 18px !important;
+  width: 310px !important;
+  display: grid !important;
+  gap: 10px !important;
+  padding: 14px !important;
+  border: 1px solid rgba(255,255,255,.18) !important;
+  border-radius: 14px !important;
+  background: rgba(15,23,42,.96) !important;
+  box-shadow: 0 18px 50px rgba(0,0,0,.38) !important;
+  color: #f8fafc !important;
+  font: 13px/1.35 system-ui, sans-serif !important;
+  backdrop-filter: blur(12px) !important;
+  max-height:calc(100vh - 36px) !important;
+  overflow:hidden !important;
+}
+#fbmd-toolbar * { box-sizing:border-box !important; font:inherit !important; }
+#fbmd-toolbar .fbmd-title { font-size:15px !important; font-weight:800 !important; }
+#fbmd-toolbar .fbmd-row { display:flex !important; justify-content:space-between !important; align-items:center !important; gap:8px !important; }
+#fbmd-toolbar .fbmd-file-row {
+  padding-top:2px !important;
+}
+#fbmd-toolbar .fbmd-file-count {
+  color:#cbd5e1 !important;
+  font-size:12px !important;
+}
+#fbmd-toolbar label { display:grid !important; grid-template-columns:100px 1fr !important; align-items:center !important; gap:8px !important; }
+#fbmd-toolbar select { width:100% !important; }
+#fbmd-toolbar .fbmd-batch-download { padding:10px !important; background:#16a34a !important; }
+#fbmd-toolbar .fbmd-status { min-height:18px !important; color:#93c5fd !important; overflow-wrap:anywhere !important; }
+#fbmd-toolbar .fbmd-status.is-error { color:#fca5a5 !important; }
+#fbmd-toolbar .fbmd-header {
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:10px !important;
+}
+#fbmd-toolbar .fbmd-collapse {
+  width:30px !important;
+  min-width:30px !important;
+  height:30px !important;
+  padding:0 !important;
+  font-size:18px !important;
+  line-height:1 !important;
+}
+#fbmd-toolbar .fbmd-panel {
+  display:grid !important;
+  gap:10px !important;
+  min-height:0 !important;
+  overflow:auto !important;
+  padding-right:2px !important;
+}
+#fbmd-toolbar.is-collapsed {
+  width:auto !important;
+  min-width:230px !important;
+  padding:9px 10px !important;
+  gap:0 !important;
+}
+#fbmd-toolbar.is-collapsed .fbmd-panel { display:none !important; }
+#fbmd-toolbar .fbmd-selection-list {
+  display:grid !important;
+  gap:6px !important;
+  max-height:210px !important;
+  overflow:auto !important;
+  padding:2px !important;
+}
+#fbmd-toolbar .fbmd-list-item {
+  display:grid !important;
+  gap:3px !important;
+  padding:8px !important;
+  border:1px solid rgba(255,255,255,.12) !important;
+  border-radius:8px !important;
+  background:rgba(255,255,255,.06) !important;
+}
+#fbmd-toolbar .fbmd-list-name {
+  overflow:hidden !important;
+  color:#f8fafc !important;
+  font-weight:700 !important;
+  text-overflow:ellipsis !important;
+  white-space:nowrap !important;
+}
+#fbmd-toolbar .fbmd-list-detail { color:#93c5fd !important; font-size:12px !important; }
+#fbmd-toolbar .fbmd-list-empty {
+  padding:9px !important;
+  border:1px dashed rgba(255,255,255,.18) !important;
+  border-radius:8px !important;
+  color:#94a3b8 !important;
+  text-align:center !important;
+}
+#fbmd-toolbar .fbmd-jobs {
+  display:grid !important;
+  gap:6px !important;
+  padding-top:2px !important;
+}
+#fbmd-toolbar .fbmd-jobs-title { font-weight:800 !important; color:#e2e8f0 !important; }
+#fbmd-toolbar .fbmd-job-list {
+  display:grid !important;
+  gap:6px !important;
+  max-height:230px !important;
+  overflow:auto !important;
+}
+#fbmd-toolbar .fbmd-job-item {
+  display:grid !important;
+  gap:4px !important;
+  padding:8px !important;
+  border:1px solid rgba(255,255,255,.12) !important;
+  border-radius:8px !important;
+  background:rgba(15,23,42,.82) !important;
+}
+#fbmd-toolbar .fbmd-job-name {
+  overflow:hidden !important;
+  color:#f8fafc !important;
+  font-weight:750 !important;
+  text-overflow:ellipsis !important;
+  white-space:nowrap !important;
+}
+#fbmd-toolbar .fbmd-job-meta { color:#93c5fd !important; font-size:11px !important; overflow-wrap:anywhere !important; }
+#fbmd-toolbar .fbmd-job-progress {
+  height:5px !important;
+  overflow:hidden !important;
+  border-radius:999px !important;
+  background:rgba(255,255,255,.12) !important;
+}
+#fbmd-toolbar .fbmd-job-progress span {
+  display:block !important;
+  height:100% !important;
+  border-radius:inherit !important;
+  background:#38bdf8 !important;
+  transition:width .2s ease !important;
+}
+#fbmd-toolbar .fbmd-job-item.state-started .fbmd-job-progress span,
+#fbmd-toolbar .fbmd-job-item.state-complete .fbmd-job-progress span { background:#22c55e !important; }
+#fbmd-toolbar .fbmd-job-item.state-error .fbmd-job-progress span { background:#ef4444 !important; }
+#fbmd-toolbar .fbmd-job-item.state-error .fbmd-job-meta { color:#fca5a5 !important; }
+#fbmd-toolbar .fbmd-job-empty {
+  padding:8px !important;
+  border:1px dashed rgba(255,255,255,.16) !important;
+  border-radius:8px !important;
+  color:#94a3b8 !important;
+  text-align:center !important;
+}
+@media (max-width: 600px) {
+  #fbmd-toolbar { right:8px !important; bottom:8px !important; width:min(310px, calc(100vw - 16px)) !important; }
+  .fbmd-video-card { max-width:calc(100% - 20px) !important; }
+  .fbmd-card-controls { flex-wrap:wrap !important; }
+}
