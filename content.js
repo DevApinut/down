@@ -40,7 +40,22 @@
     if (event.data?.type === 'FBMD_EXACT_DOWNLOAD_MESSAGE') {
       downloadExactPlayerVideo(event.data.detail).catch((error) => showStatus(String(error), true));
     }
+    if (event.data?.type === 'FBMD_EXACT_SOURCE_REQUEST') {
+      provideExactSources(event.data.detail).catch(() => {});
+    }
   });
+
+  async function provideExactSources(detail) {
+    const videoId = String(detail?.videoId || '');
+    if (!videoId) return;
+    await syncNetworkCatalog();
+    const item = catalog.get(videoId);
+    if (!hasDownloadableSource(item)) return;
+    window.postMessage({
+      type: 'FBMD_EXACT_SOURCE_RESPONSE',
+      detail: {videoId, item}
+    }, '*');
+  }
 
   async function downloadExactPlayerVideo(detail) {
     const videoId = String(detail?.videoId || 'video');

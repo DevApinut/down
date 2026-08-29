@@ -59,7 +59,7 @@
         onClick: (event) => {
           event.stopPropagation();
           event.preventDefault();
-          requestExactVideoDownload(videoId);
+          openQualityMenu(event.currentTarget, videoId);
         },
         children: '⇩'
       };
@@ -69,26 +69,6 @@
     } catch {
       return null;
     }
-  }
-
-  function requestExactVideoDownload(videoId) {
-    try {
-      const hd = window.___sf?.(videoId, 'playable_url{$1}', {$1: {quality: 'HD'}});
-      const sd = window.___sf?.(videoId, 'playable_url');
-      const url = /^https?:/i.test(hd || '') ? hd : /^https?:/i.test(sd || '') ? sd : '';
-      if (url) {
-        window.postMessage({
-          type: 'FBMD_EXACT_DOWNLOAD_MESSAGE',
-          detail: {videoId, url, label: hd === url ? 'HD' : 'SD'}
-        }, '*');
-        return;
-      }
-      scanRelayStore();
-      scheduleEmit();
-      window.postMessage({
-        type: 'FBMD_EXACT_DOWNLOAD_MESSAGE', detail: {videoId, url: '', label: ''}
-      }, '*');
-    } catch {}
   }
 
   function installRelayCapture() {
@@ -434,12 +414,14 @@
     }, '*');
   }
 
-  function openQualityMenu(trigger, videoId) {
+  function openQualityMenu(trigger, videoId, attempt = 0) {
     document.getElementById('fbmd-quality-menu')?.remove();
     const sources = availableQualitySources(videoId);
     const caption = postCaptionFromTrigger(trigger);
     const menu = document.createElement('div');
     menu.id = 'fbmd-quality-menu';
+    menu.dataset.videoId = String(videoId);
+    menu.__fbmdTrigger = trigger;
     Object.assign(menu.style, {
       position: 'fixed', zIndex: '2147483647', minWidth: '116px', padding: '6px',
       borderRadius: '9px', background: '#242526', boxShadow: '0 4px 16px rgba(0,0,0,.35)',
@@ -454,6 +436,14 @@
       menu.appendChild(waiting);
       scanRelayStore();
       scheduleEmit();
+      window.postMessage({
+        type: 'FBMD_EXACT_SOURCE_REQUEST', detail: {videoId: String(videoId)}
+      }, '*');
+      if (attempt < 8) {
+        setTimeout(() => {
+          if (menu.isConnected && trigger?.isConnected) openQualityMenu(trigger, videoId, attempt + 1);
+        }, 250);
+      }
     }
     for (const source of sources) {
       const option = document.createElement('button');
@@ -491,6 +481,18 @@
     window.addEventListener('scroll', close, true);
     window.addEventListener('resize', close, true);
   }
+
+  window.addEventListener('message', (event) => {
+    if (event.source !== window || event.data?.type !== 'FBMD_EXACT_SOURCE_RESPONSE') return;
+    const detail = event.data.detail;
+    const videoId = String(detail?.videoId || '');
+    if (!videoId || !detail?.item) return;
+    recordWithAliases(videoId, detail.item);
+    const menu = document.getElementById('fbmd-quality-menu');
+    if (menu?.dataset.videoId === videoId && menu.__fbmdTrigger?.isConnected) {
+      openQualityMenu(menu.__fbmdTrigger, videoId, 8);
+    }
+  });
 
   function record(id, patch) {
     if (!id) return;
